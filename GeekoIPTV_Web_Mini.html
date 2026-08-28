@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0b0f">
+<title>GeekoIPTV Web Mini</title>
+<style>
+:root{
+  --bg:#090a0d; --panel:#11131a; --panel2:#171a22; --text:#f7f8fb; --muted:#9da5b4;
+  --accent:#a855f7; --accent2:#7c3aed; --line:#262a35; --good:#24d17e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{min-height:100vh;padding-bottom:92px}
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.topbar{
+ position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:16px;
+ padding:14px 18px;background:rgba(9,10,13,.94);backdrop-filter:blur(12px);
+ border-bottom:1px solid var(--line)
+}
+.brand{font-weight:900;font-size:22px;white-space:nowrap}
+.brand span{color:var(--accent)}
+.searchwrap{flex:1;display:flex;gap:10px}
+.searchwrap input{
+ width:100%;background:#141721;border:1px solid #2b3040;color:#fff;border-radius:16px;
+ padding:14px 16px;outline:none;font-size:18px
+}
+.iconbtn,.primary,.secondary{
+ border:0;border-radius:14px;padding:12px 16px;color:#fff;background:var(--panel2)
+}
+.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));font-weight:800}
+.secondary{background:#1a1e27}
+main{padding:22px}
+.hero{
+ background:linear-gradient(135deg,#12141b 0%,#171222 55%,#101218 100%);
+ border:1px solid var(--line);border-radius:26px;padding:24px;margin-bottom:26px;
+ display:flex;justify-content:space-between;gap:20px;align-items:center;min-height:150px
+}
+.hero h1{margin:0 0 8px;font-size:34px}
+.hero p{margin:0;color:var(--muted);font-size:17px;max-width:720px}
+.section{margin:26px 0}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:14px}
+.section h2{margin:0;font-size:25px}
+.row{
+ display:grid;grid-auto-flow:column;grid-auto-columns:minmax(230px,28vw);
+ gap:14px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity
+}
+.grid{
+ display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px
+}
+.card{
+ background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+ transition:.15s transform,.15s border-color;position:relative
+}
+.card:hover{transform:translateY(-2px);border-color:#4d3b68}
+.card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#20232b}
+.poster img{aspect-ratio:2/3}
+.card-body{padding:12px}
+.card-title{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-sub{color:var(--muted);font-size:13px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.actions{display:flex;gap:8px;margin-top:10px}
+.actions button{flex:1;border:0;border-radius:11px;padding:9px 10px;color:#fff;background:#222633}
+.progress{height:5px;background:#2a2e39;margin-top:9px;border-radius:99px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent)}
+.empty{
+ border:1px dashed #343949;background:#101219;border-radius:18px;padding:24px;color:var(--muted)
+}
+.bottomnav{
+ position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(10,11,15,.97);
+ backdrop-filter:blur(14px);border-top:1px solid var(--line);display:grid;
+ grid-template-columns:repeat(5,1fr);padding:8px 10px max(8px,env(safe-area-inset-bottom))
+}
+.bottomnav button{
+ border:0;background:transparent;color:#aeb5c2;padding:10px 6px;border-radius:14px;font-weight:700
+}
+.bottomnav button.active{color:#fff;background:#1b1626}
+.modal{
+ position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.76);display:flex;align-items:center;justify-content:center;padding:18px
+}
+.modalbox{
+ width:min(760px,100%);max-height:88vh;overflow:auto;background:#11141b;border:1px solid #303545;
+ border-radius:24px;padding:20px
+}
+.modalbox h3{margin-top:0;font-size:26px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.formgrid .full{grid-column:1/-1}
+label{display:block;color:#b7becb;font-size:13px;margin-bottom:5px}
+.modalbox input{
+ width:100%;background:#0d0f14;border:1px solid #303545;color:#fff;border-radius:12px;padding:12px
+}
+.notice{padding:12px 14px;border-radius:12px;background:#171a22;color:#cbd1dc;margin:12px 0}
+.status{font-size:13px;color:#aab2bf}
+.badge{
+ position:absolute;top:10px;right:10px;background:rgba(10,10,15,.84);padding:7px 9px;
+ border-radius:999px;font-size:12px
+}
+@media(max-width:720px){
+ .brand{font-size:18px}.hero h1{font-size:27px}.hero{align-items:flex-start;flex-direction:column}
+ .formgrid{grid-template-columns:1fr}.formgrid .full{grid-column:auto}
+ .row{grid-auto-columns:minmax(220px,78vw)}.grid{grid-template-columns:repeat(2,1fr)}
+ .topbar{flex-wrap:wrap}.searchwrap{order:3;flex-basis:100%}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Geeko<span>IPTV</span> Web Mini</div>
+  <div class="searchwrap"><input id="globalSearch" placeholder="Rechercher un film ou une série…"></div>
+  <button class="iconbtn" id="settingsBtn">⚙️</button>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1>Ton IPTV, en version voiture 🚗</h1>
+      <p>Interface légère avec reprise de lecture, liste “À regarder plus tard”, films, séries et recherche rapide.</p>
+    </div>
+    <button class="primary" id="connectHero">Configurer l’accès</button>
+  </section>
+
+  <section id="homeView">
+    <div class="section">
+      <div class="section-head"><h2>Reprendre</h2></div>
+      <div id="resumeRow" class="row"></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h2>À regarder plus tard</h2></div>
+      <div id="watchRow" class="row"></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h2>Suggestions</h2><span class="status" id="statusText">Mode démo</span></div>
+      <div id="suggestGrid" class="grid"></div>
+    </div>
+  </section>
+
+  <section id="moviesView" class="hidden">
+    <div class="section-head"><h2>Films</h2><span class="status" id="moviesCount"></span></div>
+    <div id="moviesGrid" class="grid"></div>
+  </section>
+
+  <section id="seriesView" class="hidden">
+    <div class="section-head"><h2>Séries</h2><span class="status" id="seriesCount"></span></div>
+    <div id="seriesGrid" class="grid"></div>
+  </section>
+
+  <section id="searchView" class="hidden">
+    <div class="section-head"><h2>Recherche</h2><span class="status">Films + séries</span></div>
+    <div id="searchGrid" class="grid"></div>
+  </section>
+
+  <section id="laterView" class="hidden">
+    <div class="section-head"><h2>À regarder plus tard</h2></div>
+    <div id="laterGrid" class="grid"></div>
+  </section>
+</main>
+
+<nav class="bottomnav">
+  <button data-view="home" class="active">🏠<br>Accueil</button>
+  <button data-view="movies">🎬<br>Films</button>
+  <button data-view="series">📺<br>Séries</button>
+  <button data-view="search">🔎<br>Recherche</button>
+  <button data-view="later">🕒<br>Plus tard</button>
+</nav>
+
+<div id="settingsModal" class="modal hidden">
+  <div class="modalbox">
+    <h3>Connexion Xtream</h3>
+    <div class="notice">Les identifiants sont enregistrés uniquement dans le navigateur de cet appareil. Selon ton fournisseur IPTV, les appels depuis un navigateur peuvent être bloqués par CORS.</div>
+    <div class="formgrid">
+      <div class="full"><label>URL du serveur</label><input id="serverUrl" placeholder="http://serveur:port"></div>
+      <div><label>Nom d’utilisateur</label><input id="username"></div>
+      <div><label>Mot de passe</label><input id="password" type="password"></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
+      <button class="secondary" id="closeSettings">Fermer</button>
+      <button class="primary" id="saveSettings">Enregistrer & tester</button>
+    </div>
+    <div id="connStatus" class="status" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<div id="detailModal" class="modal hidden">
+  <div class="modalbox">
+    <div style="display:flex;justify-content:space-between;gap:10px">
+      <h3 id="detailTitle"></h3><button class="iconbtn" id="closeDetail">✕</button>
+    </div>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<script>
+const demo = [
+ {id:'d1',type:'movie',name:'Interstellar',image:'https://image.tmdb.org/t/p/w780/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',info:'Film • Science-fiction'},
+ {id:'d2',type:'movie',name:'Dune : Deuxième Partie',image:'https://image.tmdb.org/t/p/w780/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',info:'Film • Science-fiction'},
+ {id:'d3',type:'series',name:'The Last of Us',image:'https://image.tmdb.org/t/p/w780/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg',info:'Série'},
+ {id:'d4',type:'series',name:'Stranger Things',image:'https://image.tmdb.org/t/p/w780/49WJfeN0moxb9IPfGn8AIqMGskD.jpg',info:'Série'},
+ {id:'d5',type:'movie',name:'Inception',image:'https://image.tmdb.org/t/p/w780/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg',info:'Film • Thriller'},
+ {id:'d6',type:'series',name:'Breaking Bad',image:'https://image.tmdb.org/t/p/w780/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg',info:'Série'}
+];
+
+let items=[...demo];
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+
+function cfg(){ try{return JSON.parse(localStorage.getItem('geeko_cfg')||'{}')}catch{return{}} }
+function saveCfg(x){localStorage.setItem('geeko_cfg',JSON.stringify(x))}
+function later(){try{return JSON.parse(localStorage.getItem('geeko_later')||'[]')}catch{return[]}}
+function saveLater(x){localStorage.setItem('geeko_later',JSON.stringify(x))}
+function resume(){try{return JSON.parse(localStorage.getItem('geeko_resume')||'[]')}catch{return[]}}
+function saveResume(x){localStorage.setItem('geeko_resume',JSON.stringify(x))}
+function esc(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+function card(item, poster=false){
+ const saved=later().some(x=>x.id===item.id);
+ const res=resume().find(x=>x.id===item.id);
+ return `<article class="card ${poster?'poster':''}" data-id="${esc(String(item.id))}">
+   ${item.image?`<img src="${esc(item.image)}" alt="">`:`<div style="aspect-ratio:${poster?'2/3':'16/9'};background:#20242d"></div>`}
+   <span class="badge">${item.type==='series'?'Série':'Film'}</span>
+   <div class="card-body">
+    <div class="card-title">${esc(item.name||'Sans titre')}</div>
+    <div class="card-sub">${esc(item.info||'')}</div>
+    ${res?`<div class="progress"><i style="width:${Math.max(5,Math.min(100,res.progress||25))}%"></i></div>`:''}
+    <div class="actions">
+      <button onclick="openItem('${String(item.id).replace(/'/g,"\\'")}')">Ouvrir</button>
+      <button onclick="toggleLater('${String(item.id).replace(/'/g,"\\'")}')">${saved?'✓':'＋'}</button>
+    </div>
+   </div>
+ </article>`;
+}
+
+function render(){
+ const l=later(), r=resume();
+ $('#resumeRow').innerHTML=r.length?r.map(x=>card(x,false)).join(''):`<div class="empty">Aucune lecture à reprendre pour le moment.</div>`;
+ $('#watchRow').innerHTML=l.length?l.map(x=>card(x,false)).join(''):`<div class="empty">Ajoute un film ou une série avec le bouton ＋.</div>`;
+ $('#laterGrid').innerHTML=l.length?l.map(x=>card(x,true)).join(''):`<div class="empty">Ta liste est vide.</div>`;
+ const movies=items.filter(x=>x.type==='movie'), series=items.filter(x=>x.type==='series');
+ $('#moviesGrid').innerHTML=movies.map(x=>card(x,true)).join('');
+ $('#seriesGrid').innerHTML=series.map(x=>card(x,true)).join('');
+ $('#suggestGrid').innerHTML=items.slice(0,12).map(x=>card(x,true)).join('');
+ $('#moviesCount').textContent=movies.length+' films';
+ $('#seriesCount').textContent=series.length+' séries';
+ doSearch($('#globalSearch').value);
+}
+function toggleLater(id){
+ const item=items.find(x=>String(x.id)===String(id))||resume().find(x=>String(x.id)===String(id));
+ if(!item)return;
+ let l=later(), i=l.findIndex(x=>String(x.id)===String(id));
+ if(i>=0)l.splice(i,1);else l.unshift(item);
+ saveLater(l);render();
+}
+function openItem(id){
+ const item=items.find(x=>String(x.id)===String(id))||later().find(x=>String(x.id)===String(id))||resume().find(x=>String(x.id)===String(id));
+ if(!item)return;
+ $('#detailTitle').textContent=item.name;
+ $('#detailBody').innerHTML=`
+  ${item.image?`<img src="${esc(item.image)}" style="width:100%;max-height:360px;object-fit:cover;border-radius:18px">`:''}
+  <p style="color:#b6bdca">${esc(item.info||'')}</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+   <button class="primary" onclick="startDemo('${String(item.id).replace(/'/g,"\\'")}')">▶ Lire / simuler reprise</button>
+   <button class="secondary" onclick="toggleLater('${String(item.id).replace(/'/g,"\\'")}')">＋ À regarder plus tard</button>
+  </div>`;
+ $('#detailModal').classList.remove('hidden');
+}
+function startDemo(id){
+ const item=items.find(x=>String(x.id)===String(id)); if(!item)return;
+ let r=resume().filter(x=>String(x.id)!==String(id));
+ r.unshift({...item,progress:Math.floor(20+Math.random()*60)});
+ saveResume(r.slice(0,12)); $('#detailModal').classList.add('hidden'); render();
+}
+function doSearch(q){
+ q=(q||'').trim().toLowerCase();
+ const out=q?items.filter(x=>(x.name+' '+(x.info||'')).toLowerCase().includes(q)):[];
+ $('#searchGrid').innerHTML=q?(out.length?out.map(x=>card(x,true)).join(''):`<div class="empty">Aucun résultat.</div>`):`<div class="empty">Tape un titre dans la barre de recherche.</div>`;
+}
+function setView(v){
+ ['home','movies','series','search','later'].forEach(x=>$('#'+x+'View').classList.toggle('hidden',x!==v));
+ $$('.bottomnav button').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+ if(v==='search')$('#globalSearch').focus();
+}
+$$('.bottomnav button').forEach(b=>b.onclick=()=>setView(b.dataset.view));
+$('#globalSearch').addEventListener('input',e=>{doSearch(e.target.value); if(e.target.value.trim())setView('search')});
+$('#settingsBtn').onclick=$('#connectHero').onclick=()=>{
+ const c=cfg(); $('#serverUrl').value=c.url||''; $('#username').value=c.username||''; $('#password').value=c.password||'';
+ $('#connStatus').textContent=''; $('#settingsModal').classList.remove('hidden');
+}
+$('#closeSettings').onclick=()=>$('#settingsModal').classList.add('hidden');
+$('#closeDetail').onclick=()=>$('#detailModal').classList.add('hidden');
+
+function normalizeBase(u){return u.trim().replace(/\/+$/,'')}
+async function xtream(action){
+ const c=cfg(), base=normalizeBase(c.url||'');
+ const url=`${base}/player_api.php?username=${encodeURIComponent(c.username||'')}&password=${encodeURIComponent(c.password||'')}&action=${encodeURIComponent(action)}`;
+ const r=await fetch(url); if(!r.ok)throw new Error('HTTP '+r.status); return r.json();
+}
+$('#saveSettings').onclick=async()=>{
+ const c={url:normalizeBase($('#serverUrl').value),username:$('#username').value.trim(),password:$('#password').value};
+ saveCfg(c); $('#connStatus').textContent='Connexion en cours…';
+ try{
+   const auth=await fetch(`${c.url}/player_api.php?username=${encodeURIComponent(c.username)}&password=${encodeURIComponent(c.password)}`).then(r=>r.json());
+   if(!auth?.user_info)throw new Error('Réponse Xtream invalide');
+   $('#connStatus').textContent='✅ Connexion réussie. Chargement films et séries…';
+   await loadXtream();
+   $('#settingsModal').classList.add('hidden');
+ }catch(e){
+   $('#connStatus').textContent='❌ Échec : '+e.message+' — possible blocage CORS du fournisseur.';
+ }
+}
+async function loadXtream(){
+ const [vod,ser]=await Promise.all([xtream('get_vod_streams'),xtream('get_series')]);
+ const movieItems=(Array.isArray(vod)?vod:[]).map(x=>({
+   id:'m'+x.stream_id,type:'movie',name:x.name||'Film',
+   image:x.stream_icon||'',info:[x.releaseDate,x.rating&&('★ '+x.rating)].filter(Boolean).join(' • '),
+   raw:x
+ }));
+ const seriesItems=(Array.isArray(ser)?ser:[]).map(x=>({
+   id:'s'+x.series_id,type:'series',name:x.name||'Série',
+   image:x.cover||'',info:[x.releaseDate,x.rating&&('★ '+x.rating)].filter(Boolean).join(' • '),
+   raw:x
+ }));
+ items=[...movieItems,...seriesItems];
+ $('#statusText').textContent='Connecté • '+items.length+' contenus';
+ render();
+}
+(async function init(){
+ const c=cfg(); render();
+ if(c.url&&c.username&&c.password){
+   $('#statusText').textContent='Connexion…';
+   try{await loadXtream()}catch(e){$('#statusText').textContent='Mode démo • serveur non accessible';}
+ }
+})();
+</script>
+</body>
+</html>

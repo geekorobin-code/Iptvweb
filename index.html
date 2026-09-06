@@ -3,333 +3,551 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0a0b0f">
-<title>GeekoIPTV Web Mini</title>
+<meta name="theme-color" content="#090a0d">
+<title>GeekoIPTV Car Lite</title>
 <style>
 :root{
-  --bg:#090a0d; --panel:#11131a; --panel2:#171a22; --text:#f7f8fb; --muted:#9da5b4;
-  --accent:#a855f7; --accent2:#7c3aed; --line:#262a35; --good:#24d17e;
+  --bg:#090a0d;--panel:#12141a;--panel2:#181b23;--line:#2a2e39;
+  --text:#f7f8fb;--muted:#a4abb8;--accent:#9b4dff;--danger:#ff5b7a;
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-body{min-height:100vh;padding-bottom:92px}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{padding-bottom:84px}
 button,input{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
-.topbar{
- position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:16px;
- padding:14px 18px;background:rgba(9,10,13,.94);backdrop-filter:blur(12px);
- border-bottom:1px solid var(--line)
+
+header{
+  position:sticky;top:0;z-index:30;
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;background:rgba(9,10,13,.97);
+  border-bottom:1px solid var(--line)
 }
-.brand{font-weight:900;font-size:22px;white-space:nowrap}
-.brand span{color:var(--accent)}
-.searchwrap{flex:1;display:flex;gap:10px}
-.searchwrap input{
- width:100%;background:#141721;border:1px solid #2b3040;color:#fff;border-radius:16px;
- padding:14px 16px;outline:none;font-size:18px
+.logo{font-size:23px;font-weight:900;white-space:nowrap}
+.logo b{color:var(--accent)}
+.search{flex:1}
+.search input{
+  width:100%;background:#12151d;color:white;border:1px solid var(--line);
+  border-radius:16px;padding:14px 17px;font-size:18px;outline:none
 }
-.iconbtn,.primary,.secondary{
- border:0;border-radius:14px;padding:12px 16px;color:#fff;background:var(--panel2)
+.iconbtn{
+  border:0;background:#181b23;color:white;border-radius:14px;
+  padding:13px 16px;font-size:18px
 }
-.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));font-weight:800}
-.secondary{background:#1a1e27}
-main{padding:22px}
+
+main{padding:20px}
 .hero{
- background:linear-gradient(135deg,#12141b 0%,#171222 55%,#101218 100%);
- border:1px solid var(--line);border-radius:26px;padding:24px;margin-bottom:26px;
- display:flex;justify-content:space-between;gap:20px;align-items:center;min-height:150px
+  display:flex;justify-content:space-between;align-items:center;gap:18px;
+  padding:22px;border:1px solid var(--line);border-radius:22px;
+  background:linear-gradient(135deg,#11131a,#17121f);margin-bottom:24px
 }
-.hero h1{margin:0 0 8px;font-size:34px}
-.hero p{margin:0;color:var(--muted);font-size:17px;max-width:720px}
-.section{margin:26px 0}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:14px}
-.section h2{margin:0;font-size:25px}
+.hero h1{margin:0 0 6px;font-size:30px}
+.hero p{margin:0;color:var(--muted)}
+.status{font-size:13px;color:var(--muted)}
+.sectionHead{display:flex;justify-content:space-between;align-items:center;margin:24px 0 12px}
+.sectionHead h2{margin:0;font-size:23px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:14px}
 .row{
- display:grid;grid-auto-flow:column;grid-auto-columns:minmax(230px,28vw);
- gap:14px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity
-}
-.grid{
- display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(230px,28vw);
+  overflow-x:auto;gap:14px;padding-bottom:7px
 }
 .card{
- background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;
- transition:.15s transform,.15s border-color;position:relative
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:18px;overflow:hidden;min-width:0
 }
-.card:hover{transform:translateY(-2px);border-color:#4d3b68}
-.card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#20232b}
-.poster img{aspect-ratio:2/3}
-.card-body{padding:12px}
-.card-title{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card-sub{color:var(--muted);font-size:13px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.actions{display:flex;gap:8px;margin-top:10px}
-.actions button{flex:1;border:0;border-radius:11px;padding:9px 10px;color:#fff;background:#222633}
-.progress{height:5px;background:#2a2e39;margin-top:9px;border-radius:99px;overflow:hidden}
+.card img{
+  display:block;width:100%;aspect-ratio:2/3;object-fit:cover;background:#20232a
+}
+.row .card img{aspect-ratio:16/9}
+.placeholder{width:100%;aspect-ratio:2/3;background:#20232a}
+.row .placeholder{aspect-ratio:16/9}
+.cardBody{padding:11px}
+.title{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub{font-size:12px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card button,.primary,.secondary{
+  border:0;border-radius:12px;padding:11px 14px;font-weight:800
+}
+.card button{width:100%;margin-top:9px;background:#252936;color:#fff}
+.primary{background:var(--accent);color:white}
+.secondary{background:#242832;color:white}
+.progress{height:5px;background:#2a2e37;border-radius:20px;overflow:hidden;margin-top:8px}
 .progress i{display:block;height:100%;background:var(--accent)}
 .empty{
- border:1px dashed #343949;background:#101219;border-radius:18px;padding:24px;color:var(--muted)
+  padding:22px;border:1px dashed #343947;border-radius:16px;
+  color:var(--muted);background:#0e1015
 }
-.bottomnav{
- position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(10,11,15,.97);
- backdrop-filter:blur(14px);border-top:1px solid var(--line);display:grid;
- grid-template-columns:repeat(5,1fr);padding:8px 10px max(8px,env(safe-area-inset-bottom))
+
+nav{
+  position:fixed;z-index:40;left:0;right:0;bottom:0;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:rgba(9,10,13,.98);border-top:1px solid var(--line);
+  padding:8px 10px max(8px,env(safe-area-inset-bottom))
 }
-.bottomnav button{
- border:0;background:transparent;color:#aeb5c2;padding:10px 6px;border-radius:14px;font-weight:700
+nav button{
+  border:0;background:transparent;color:#aeb5c0;border-radius:13px;
+  padding:9px;font-weight:750
 }
-.bottomnav button.active{color:#fff;background:#1b1626}
+nav button.active{background:#1f172b;color:#fff}
+
 .modal{
- position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.76);display:flex;align-items:center;justify-content:center;padding:18px
+  position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.78);
+  display:flex;align-items:center;justify-content:center;padding:18px
 }
-.modalbox{
- width:min(760px,100%);max-height:88vh;overflow:auto;background:#11141b;border:1px solid #303545;
- border-radius:24px;padding:20px
+.box{
+  width:min(760px,100%);max-height:90vh;overflow:auto;
+  background:#11141a;border:1px solid #303542;border-radius:22px;padding:20px
 }
-.modalbox h3{margin-top:0;font-size:26px}
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.formgrid .full{grid-column:1/-1}
-label{display:block;color:#b7becb;font-size:13px;margin-bottom:5px}
-.modalbox input{
- width:100%;background:#0d0f14;border:1px solid #303545;color:#fff;border-radius:12px;padding:12px
+.box h3{margin:0 0 15px;font-size:25px}
+.info{
+  background:#171a22;border-radius:14px;padding:14px;color:#c0c6d0;margin-bottom:16px
 }
-.notice{padding:12px 14px;border-radius:12px;background:#171a22;color:#cbd1dc;margin:12px 0}
-.status{font-size:13px;color:#aab2bf}
-.badge{
- position:absolute;top:10px;right:10px;background:rgba(10,10,15,.84);padding:7px 9px;
- border-radius:999px;font-size:12px
+label{display:block;color:#b8bfca;font-size:13px;margin:10px 0 5px}
+.box input{
+  width:100%;background:#0d0f14;border:1px solid #303542;
+  border-radius:12px;color:#fff;padding:13px
 }
-@media(max-width:720px){
- .brand{font-size:18px}.hero h1{font-size:27px}.hero{align-items:flex-start;flex-direction:column}
- .formgrid{grid-template-columns:1fr}.formgrid .full{grid-column:auto}
- .row{grid-auto-columns:minmax(220px,78vw)}.grid{grid-template-columns:repeat(2,1fr)}
- .topbar{flex-wrap:wrap}.searchwrap{order:3;flex-basis:100%}
+.buttons{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+.error{color:#ff7791;margin-top:12px;font-size:14px}
+.ok{color:#7fe7a8;margin-top:12px;font-size:14px}
+
+.player{position:fixed;inset:0;z-index:100;background:#000}
+.playerbar{
+  height:58px;display:flex;justify-content:space-between;align-items:center;
+  padding:8px 12px;background:#0b0c0f
+}
+.player video{width:100%;height:calc(100vh - 58px);background:#000}
+.episode{
+  display:flex;justify-content:space-between;gap:10px;align-items:center;
+  padding:12px;border:1px solid var(--line);border-radius:12px;
+  margin:8px 0;background:#171a21
+}
+.episode span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+@media(max-width:700px){
+  header{flex-wrap:wrap}
+  .search{order:3;flex-basis:100%}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .row{grid-auto-columns:78vw}
+  .hero{align-items:flex-start;flex-direction:column}
 }
 </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="brand">Geeko<span>IPTV</span> Web Mini</div>
-  <div class="searchwrap"><input id="globalSearch" placeholder="Rechercher un film ou une série…"></div>
-  <button class="iconbtn" id="settingsBtn">⚙️</button>
+
+<header>
+  <div class="logo">Geeko<b>IPTV</b> Car</div>
+  <div class="search"><input id="q" placeholder="Rechercher un film ou une série…"></div>
+  <button class="iconbtn" id="settings" aria-label="Réglages">⚙️</button>
 </header>
 
 <main>
-  <section class="hero">
-    <div>
-      <h1>Ton IPTV, en version voiture 🚗</h1>
-      <p>Interface légère avec reprise de lecture, liste “À regarder plus tard”, films, séries et recherche rapide.</p>
+  <section id="home">
+    <div class="hero">
+      <div>
+        <h1>Que veux-tu regarder ? 🚗</h1>
+        <p>Version légère pensée pour le navigateur de la voiture.</p>
+      </div>
+      <span id="state" class="status">À configurer</span>
     </div>
-    <button class="primary" id="connectHero">Configurer l’accès</button>
+
+    <div class="sectionHead"><h2>Reprendre</h2></div>
+    <div id="resume" class="row"></div>
+
+    <div class="sectionHead"><h2>Récemment ajoutés</h2></div>
+    <div id="recent" class="grid"></div>
   </section>
 
-  <section id="homeView">
-    <div class="section">
-      <div class="section-head"><h2>Reprendre</h2></div>
-      <div id="resumeRow" class="row"></div>
-    </div>
-    <div class="section">
-      <div class="section-head"><h2>À regarder plus tard</h2></div>
-      <div id="watchRow" class="row"></div>
-    </div>
-    <div class="section">
-      <div class="section-head"><h2>Suggestions</h2><span class="status" id="statusText">Mode démo</span></div>
-      <div id="suggestGrid" class="grid"></div>
-    </div>
+  <section id="movies" class="hidden">
+    <div class="sectionHead"><h2>Films</h2><span id="mc" class="status"></span></div>
+    <div id="mg" class="grid"></div>
   </section>
 
-  <section id="moviesView" class="hidden">
-    <div class="section-head"><h2>Films</h2><span class="status" id="moviesCount"></span></div>
-    <div id="moviesGrid" class="grid"></div>
-  </section>
-
-  <section id="seriesView" class="hidden">
-    <div class="section-head"><h2>Séries</h2><span class="status" id="seriesCount"></span></div>
-    <div id="seriesGrid" class="grid"></div>
+  <section id="series" class="hidden">
+    <div class="sectionHead"><h2>Séries</h2><span id="sc" class="status"></span></div>
+    <div id="sg" class="grid"></div>
   </section>
 
   <section id="searchView" class="hidden">
-    <div class="section-head"><h2>Recherche</h2><span class="status">Films + séries</span></div>
-    <div id="searchGrid" class="grid"></div>
-  </section>
-
-  <section id="laterView" class="hidden">
-    <div class="section-head"><h2>À regarder plus tard</h2></div>
-    <div id="laterGrid" class="grid"></div>
+    <div class="sectionHead"><h2>Recherche</h2></div>
+    <div id="results" class="grid"></div>
   </section>
 </main>
 
-<nav class="bottomnav">
-  <button data-view="home" class="active">🏠<br>Accueil</button>
-  <button data-view="movies">🎬<br>Films</button>
-  <button data-view="series">📺<br>Séries</button>
-  <button data-view="search">🔎<br>Recherche</button>
-  <button data-view="later">🕒<br>Plus tard</button>
+<nav>
+  <button data-v="home" class="active">🏠<br>Accueil</button>
+  <button data-v="movies">🎬<br>Films</button>
+  <button data-v="series">📺<br>Séries</button>
+  <button data-v="searchView">🔎<br>Recherche</button>
 </nav>
 
 <div id="settingsModal" class="modal hidden">
-  <div class="modalbox">
-    <h3>Connexion Xtream</h3>
-    <div class="notice">Les identifiants sont enregistrés uniquement dans le navigateur de cet appareil. Selon ton fournisseur IPTV, les appels depuis un navigateur peuvent être bloqués par CORS.</div>
-    <div class="formgrid">
-      <div class="full"><label>URL du serveur</label><input id="serverUrl" placeholder="http://serveur:port"></div>
-      <div><label>Nom d’utilisateur</label><input id="username"></div>
-      <div><label>Mot de passe</label><input id="password" type="password"></div>
+  <div class="box">
+    <h3>Connexion IPTV</h3>
+    <div class="info">
+      Le site passe par ton relais HTTPS. Les identifiants restent enregistrés uniquement dans ce navigateur.
     </div>
-    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
-      <button class="secondary" id="closeSettings">Fermer</button>
-      <button class="primary" id="saveSettings">Enregistrer & tester</button>
+    <label>Adresse HTTPS du relais</label>
+    <input id="relay" placeholder="https://ton-relais.example.com">
+    <label>Nom d’utilisateur</label>
+    <input id="user" autocomplete="username">
+    <label>Mot de passe</label>
+    <input id="pass" type="password" autocomplete="current-password">
+    <div class="buttons">
+      <button class="secondary" id="cancel">Fermer</button>
+      <button class="primary" id="save">Enregistrer & tester</button>
     </div>
-    <div id="connStatus" class="status" style="margin-top:12px"></div>
+    <div id="test"></div>
   </div>
 </div>
 
-<div id="detailModal" class="modal hidden">
-  <div class="modalbox">
-    <div style="display:flex;justify-content:space-between;gap:10px">
-      <h3 id="detailTitle"></h3><button class="iconbtn" id="closeDetail">✕</button>
+<div id="detail" class="modal hidden">
+  <div class="box">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <h3 id="dt"></h3>
+      <button class="secondary" id="dc">✕</button>
     </div>
-    <div id="detailBody"></div>
+    <div id="db"></div>
   </div>
+</div>
+
+<div id="player" class="player hidden">
+  <div class="playerbar">
+    <strong id="pt"></strong>
+    <button class="secondary" id="pc">✕ Fermer</button>
+  </div>
+  <video id="video" controls autoplay playsinline></video>
 </div>
 
 <script>
-const demo = [
- {id:'d1',type:'movie',name:'Interstellar',image:'https://image.tmdb.org/t/p/w780/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',info:'Film • Science-fiction'},
- {id:'d2',type:'movie',name:'Dune : Deuxième Partie',image:'https://image.tmdb.org/t/p/w780/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',info:'Film • Science-fiction'},
- {id:'d3',type:'series',name:'The Last of Us',image:'https://image.tmdb.org/t/p/w780/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg',info:'Série'},
- {id:'d4',type:'series',name:'Stranger Things',image:'https://image.tmdb.org/t/p/w780/49WJfeN0moxb9IPfGn8AIqMGskD.jpg',info:'Série'},
- {id:'d5',type:'movie',name:'Inception',image:'https://image.tmdb.org/t/p/w780/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg',info:'Film • Thriller'},
- {id:'d6',type:'series',name:'Breaking Bad',image:'https://image.tmdb.org/t/p/w780/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg',info:'Série'}
-];
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
 
-let items=[...demo];
-const $=s=>document.querySelector(s);
-const $$=s=>[...document.querySelectorAll(s)];
+let all = [];
+let playing = null;
+let lastSave = 0;
 
-function cfg(){ try{return JSON.parse(localStorage.getItem('geeko_cfg')||'{}')}catch{return{}} }
-function saveCfg(x){localStorage.setItem('geeko_cfg',JSON.stringify(x))}
-function later(){try{return JSON.parse(localStorage.getItem('geeko_later')||'[]')}catch{return[]}}
-function saveLater(x){localStorage.setItem('geeko_later',JSON.stringify(x))}
-function resume(){try{return JSON.parse(localStorage.getItem('geeko_resume')||'[]')}catch{return[]}}
-function saveResume(x){localStorage.setItem('geeko_resume',JSON.stringify(x))}
-function esc(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+const get = (k,d) => {
+  try { return JSON.parse(localStorage.getItem(k)) ?? d; }
+  catch { return d; }
+};
+const set = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+const config = () => get("geeko_car_cfg",{});
+const progress = () => get("geeko_car_progress",[]);
+const clean = u => (u || "").trim().replace(/\/+$/,"");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, m => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[m]));
+const quote = s => String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
 
-function card(item, poster=false){
- const saved=later().some(x=>x.id===item.id);
- const res=resume().find(x=>x.id===item.id);
- return `<article class="card ${poster?'poster':''}" data-id="${esc(String(item.id))}">
-   ${item.image?`<img src="${esc(item.image)}" alt="">`:`<div style="aspect-ratio:${poster?'2/3':'16/9'};background:#20242d"></div>`}
-   <span class="badge">${item.type==='series'?'Série':'Film'}</span>
-   <div class="card-body">
-    <div class="card-title">${esc(item.name||'Sans titre')}</div>
-    <div class="card-sub">${esc(item.info||'')}</div>
-    ${res?`<div class="progress"><i style="width:${Math.max(5,Math.min(100,res.progress||25))}%"></i></div>`:''}
-    <div class="actions">
-      <button onclick="openItem('${String(item.id).replace(/'/g,"\\'")}')">Ouvrir</button>
-      <button onclick="toggleLater('${String(item.id).replace(/'/g,"\\'")}')">${saved?'✓':'＋'}</button>
+function proxy(path){
+  const relay = clean(config().relay);
+  return relay + "/proxy/" + path.replace(/^\/+/,"");
+}
+
+async function api(action, extra={}){
+  const c = config();
+  if(!c.relay || !c.user || !c.pass) throw Error("Connexion non configurée");
+  const p = new URLSearchParams({
+    username:c.user,
+    password:c.pass,
+    action,
+    ...extra
+  });
+  const r = await fetch(proxy("player_api.php?"+p.toString()));
+  if(!r.ok) throw Error("HTTP "+r.status);
+  return r.json();
+}
+
+function stream(x){
+  const c = config();
+  if(x.type === "movie"){
+    return proxy(`movie/${encodeURIComponent(c.user)}/${encodeURIComponent(c.pass)}/${x.stream_id}.${x.ext || "mp4"}`);
+  }
+  return proxy(`series/${encodeURIComponent(c.user)}/${encodeURIComponent(c.pass)}/${x.id}.${x.ext || "mp4"}`);
+}
+
+function card(x, row=false){
+  const p = progress().find(v => v.uid === x.uid);
+  return `
+  <article class="card">
+    ${x.image ? `<img src="${esc(x.image)}" alt="">` : `<div class="placeholder"></div>`}
+    <div class="cardBody">
+      <div class="title">${esc(x.name)}</div>
+      <div class="sub">${esc(x.info || "")}</div>
+      ${p ? `<div class="progress"><i style="width:${p.percent}%"></i></div>` : ""}
+      <button onclick="openItem('${quote(x.uid)}')">${p ? "▶ Reprendre" : "Ouvrir"}</button>
     </div>
-   </div>
- </article>`;
+  </article>`;
 }
 
 function render(){
- const l=later(), r=resume();
- $('#resumeRow').innerHTML=r.length?r.map(x=>card(x,false)).join(''):`<div class="empty">Aucune lecture à reprendre pour le moment.</div>`;
- $('#watchRow').innerHTML=l.length?l.map(x=>card(x,false)).join(''):`<div class="empty">Ajoute un film ou une série avec le bouton ＋.</div>`;
- $('#laterGrid').innerHTML=l.length?l.map(x=>card(x,true)).join(''):`<div class="empty">Ta liste est vide.</div>`;
- const movies=items.filter(x=>x.type==='movie'), series=items.filter(x=>x.type==='series');
- $('#moviesGrid').innerHTML=movies.map(x=>card(x,true)).join('');
- $('#seriesGrid').innerHTML=series.map(x=>card(x,true)).join('');
- $('#suggestGrid').innerHTML=items.slice(0,12).map(x=>card(x,true)).join('');
- $('#moviesCount').textContent=movies.length+' films';
- $('#seriesCount').textContent=series.length+' séries';
- doSearch($('#globalSearch').value);
-}
-function toggleLater(id){
- const item=items.find(x=>String(x.id)===String(id))||resume().find(x=>String(x.id)===String(id));
- if(!item)return;
- let l=later(), i=l.findIndex(x=>String(x.id)===String(id));
- if(i>=0)l.splice(i,1);else l.unshift(item);
- saveLater(l);render();
-}
-function openItem(id){
- const item=items.find(x=>String(x.id)===String(id))||later().find(x=>String(x.id)===String(id))||resume().find(x=>String(x.id)===String(id));
- if(!item)return;
- $('#detailTitle').textContent=item.name;
- $('#detailBody').innerHTML=`
-  ${item.image?`<img src="${esc(item.image)}" style="width:100%;max-height:360px;object-fit:cover;border-radius:18px">`:''}
-  <p style="color:#b6bdca">${esc(item.info||'')}</p>
-  <div style="display:flex;gap:10px;flex-wrap:wrap">
-   <button class="primary" onclick="startDemo('${String(item.id).replace(/'/g,"\\'")}')">▶ Lire / simuler reprise</button>
-   <button class="secondary" onclick="toggleLater('${String(item.id).replace(/'/g,"\\'")}')">＋ À regarder plus tard</button>
-  </div>`;
- $('#detailModal').classList.remove('hidden');
-}
-function startDemo(id){
- const item=items.find(x=>String(x.id)===String(id)); if(!item)return;
- let r=resume().filter(x=>String(x.id)!==String(id));
- r.unshift({...item,progress:Math.floor(20+Math.random()*60)});
- saveResume(r.slice(0,12)); $('#detailModal').classList.add('hidden'); render();
-}
-function doSearch(q){
- q=(q||'').trim().toLowerCase();
- const out=q?items.filter(x=>(x.name+' '+(x.info||'')).toLowerCase().includes(q)):[];
- $('#searchGrid').innerHTML=q?(out.length?out.map(x=>card(x,true)).join(''):`<div class="empty">Aucun résultat.</div>`):`<div class="empty">Tape un titre dans la barre de recherche.</div>`;
-}
-function setView(v){
- ['home','movies','series','search','later'].forEach(x=>$('#'+x+'View').classList.toggle('hidden',x!==v));
- $$('.bottomnav button').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
- if(v==='search')$('#globalSearch').focus();
-}
-$$('.bottomnav button').forEach(b=>b.onclick=()=>setView(b.dataset.view));
-$('#globalSearch').addEventListener('input',e=>{doSearch(e.target.value); if(e.target.value.trim())setView('search')});
-$('#settingsBtn').onclick=$('#connectHero').onclick=()=>{
- const c=cfg(); $('#serverUrl').value=c.url||''; $('#username').value=c.username||''; $('#password').value=c.password||'';
- $('#connStatus').textContent=''; $('#settingsModal').classList.remove('hidden');
-}
-$('#closeSettings').onclick=()=>$('#settingsModal').classList.add('hidden');
-$('#closeDetail').onclick=()=>$('#detailModal').classList.add('hidden');
+  const movies = all.filter(x => x.type === "movie");
+  const series = all.filter(x => x.type === "series");
+  const p = progress();
 
-function normalizeBase(u){return u.trim().replace(/\/+$/,'')}
-async function xtream(action){
- const c=cfg(), base=normalizeBase(c.url||'');
- const url=`${base}/player_api.php?username=${encodeURIComponent(c.username||'')}&password=${encodeURIComponent(c.password||'')}&action=${encodeURIComponent(action)}`;
- const r=await fetch(url); if(!r.ok)throw new Error('HTTP '+r.status); return r.json();
+  $("#resume").innerHTML = p.length
+    ? p.slice(0,12).map(x => card(x,true)).join("")
+    : '<div class="empty">Aucune lecture en cours.</div>';
+
+  $("#recent").innerHTML = all.length
+    ? all.slice(0,24).map(x => card(x)).join("")
+    : '<div class="empty">Configure ton accès IPTV avec ⚙️.</div>';
+
+  $("#mg").innerHTML = movies.map(x => card(x)).join("");
+  $("#sg").innerHTML = series.map(x => card(x)).join("");
+  $("#mc").textContent = movies.length ? movies.length + " films" : "";
+  $("#sc").textContent = series.length ? series.length + " séries" : "";
+
+  search($("#q").value);
 }
-$('#saveSettings').onclick=async()=>{
- const c={url:normalizeBase($('#serverUrl').value),username:$('#username').value.trim(),password:$('#password').value};
- saveCfg(c); $('#connStatus').textContent='Connexion en cours…';
- try{
-   const auth=await fetch(`${c.url}/player_api.php?username=${encodeURIComponent(c.username)}&password=${encodeURIComponent(c.password)}`).then(r=>r.json());
-   if(!auth?.user_info)throw new Error('Réponse Xtream invalide');
-   $('#connStatus').textContent='✅ Connexion réussie. Chargement films et séries…';
-   await loadXtream();
-   $('#settingsModal').classList.add('hidden');
- }catch(e){
-   $('#connStatus').textContent='❌ Échec : '+e.message+' — possible blocage CORS du fournisseur.';
- }
+
+function view(v){
+  ["home","movies","series","searchView"].forEach(x =>
+    $("#"+x).classList.toggle("hidden", x !== v)
+  );
+  $$("nav button").forEach(b =>
+    b.classList.toggle("active", b.dataset.v === v)
+  );
+  if(v === "searchView") $("#q").focus();
 }
-async function loadXtream(){
- const [vod,ser]=await Promise.all([xtream('get_vod_streams'),xtream('get_series')]);
- const movieItems=(Array.isArray(vod)?vod:[]).map(x=>({
-   id:'m'+x.stream_id,type:'movie',name:x.name||'Film',
-   image:x.stream_icon||'',info:[x.releaseDate,x.rating&&('★ '+x.rating)].filter(Boolean).join(' • '),
-   raw:x
- }));
- const seriesItems=(Array.isArray(ser)?ser:[]).map(x=>({
-   id:'s'+x.series_id,type:'series',name:x.name||'Série',
-   image:x.cover||'',info:[x.releaseDate,x.rating&&('★ '+x.rating)].filter(Boolean).join(' • '),
-   raw:x
- }));
- items=[...movieItems,...seriesItems];
- $('#statusText').textContent='Connecté • '+items.length+' contenus';
- render();
+
+$$("nav button").forEach(b => b.onclick = () => view(b.dataset.v));
+
+function search(q){
+  q = (q || "").trim().toLowerCase();
+  const results = q
+    ? all.filter(x => (x.name+" "+x.info).toLowerCase().includes(q))
+    : [];
+  $("#results").innerHTML = q
+    ? (results.length ? results.map(x => card(x)).join("") : '<div class="empty">Aucun résultat.</div>')
+    : '<div class="empty">Tape un titre ci-dessus.</div>';
 }
-(async function init(){
- const c=cfg(); render();
- if(c.url&&c.username&&c.password){
-   $('#statusText').textContent='Connexion…';
-   try{await loadXtream()}catch(e){$('#statusText').textContent='Mode démo • serveur non accessible';}
- }
+
+$("#q").oninput = e => {
+  search(e.target.value);
+  if(e.target.value.trim()) view("searchView");
+};
+
+async function openItem(uid){
+  const x = all.find(v => v.uid === uid) || progress().find(v => v.uid === uid);
+  if(!x) return;
+
+  $("#dt").textContent = x.name;
+  $("#detail").classList.remove("hidden");
+
+  if(x.type === "movie"){
+    $("#db").innerHTML = `
+      ${x.image ? `<img src="${esc(x.image)}" alt="" style="width:100%;max-height:340px;object-fit:cover;border-radius:16px">` : ""}
+      <p class="status">${esc(x.info || "")}</p>
+      <button class="primary" onclick="playMovie('${quote(uid)}')">▶ Lire</button>
+    `;
+    return;
+  }
+
+  $("#db").innerHTML = '<div class="empty">Chargement des épisodes…</div>';
+
+  try{
+    const data = await api("get_series_info",{series_id:x.series_id});
+    const eps = [];
+
+    Object.keys(data.episodes || {})
+      .sort((a,b) => Number(a)-Number(b))
+      .forEach(season => {
+        (data.episodes[season] || []).forEach(e => {
+          eps.push({
+            id:e.id,
+            ext:e.container_extension || "mp4",
+            season,
+            episode:e.episode_num || "",
+            title:e.title || ("Épisode " + e.episode_num)
+          });
+        });
+      });
+
+    $("#db").innerHTML = eps.length
+      ? eps.map(e => `
+        <div class="episode">
+          <span>S${String(e.season).padStart(2,"0")} E${String(e.episode).padStart(2,"0")} — ${esc(e.title)}</span>
+          <button class="primary" onclick="playEp('${quote(uid)}','${quote(e.id)}','${quote(e.ext)}','${quote(e.title)}')">▶</button>
+        </div>`).join("")
+      : '<div class="empty">Aucun épisode trouvé.</div>';
+
+  }catch(e){
+    $("#db").innerHTML = '<div class="empty">Erreur : '+esc(e.message)+'</div>';
+  }
+}
+
+window.openItem = openItem;
+
+window.playMovie = uid => {
+  const x = all.find(v => v.uid === uid) || progress().find(v => v.uid === uid);
+  if(x) start(x, stream(x));
+};
+
+window.playEp = (seriesUid,id,ext,title) => {
+  const s = all.find(v => v.uid === seriesUid);
+  if(!s) return;
+  const x = {
+    uid:"e"+id,
+    id,
+    type:"episode",
+    name:s.name+" — "+title,
+    image:s.image,
+    info:title,
+    ext
+  };
+  start(x, stream(x));
+};
+
+function start(x,url){
+  playing = x;
+  $("#detail").classList.add("hidden");
+  $("#pt").textContent = x.name;
+  $("#player").classList.remove("hidden");
+
+  const v = $("#video");
+  const p = progress().find(a => a.uid === x.uid);
+  v.src = url;
+
+  v.onloadedmetadata = () => {
+    if(p?.seconds && p.seconds < v.duration - 15) v.currentTime = p.seconds;
+  };
+  v.play().catch(()=>{});
+}
+
+function saveProgress(){
+  const v = $("#video");
+  if(!playing || !isFinite(v.duration) || v.duration <= 0) return;
+
+  const percent = Math.round(v.currentTime / v.duration * 100);
+  let p = progress().filter(x => x.uid !== playing.uid);
+
+  if(percent < 95 && v.currentTime > 5){
+    p.unshift({...playing,seconds:v.currentTime,percent});
+  }
+
+  set("geeko_car_progress", p.slice(0,20));
+}
+
+$("#video").ontimeupdate = () => {
+  if(Date.now() - lastSave > 5000){
+    lastSave = Date.now();
+    saveProgress();
+  }
+};
+
+$("#video").onended = () => {
+  if(playing){
+    set("geeko_car_progress", progress().filter(x => x.uid !== playing.uid));
+  }
+  render();
+};
+
+$("#pc").onclick = () => {
+  saveProgress();
+  const v = $("#video");
+  v.pause();
+  v.removeAttribute("src");
+  v.load();
+  $("#player").classList.add("hidden");
+  playing = null;
+  render();
+};
+
+$("#dc").onclick = () => $("#detail").classList.add("hidden");
+
+function showSettings(){
+  const c = config();
+  $("#relay").value = c.relay || "";
+  $("#user").value = c.user || "";
+  $("#pass").value = c.pass || "";
+  $("#test").className = "";
+  $("#test").textContent = "";
+  $("#settingsModal").classList.remove("hidden");
+}
+
+$("#settings").onclick = showSettings;
+$("#cancel").onclick = () => $("#settingsModal").classList.add("hidden");
+
+$("#save").onclick = async () => {
+  const c = {
+    relay: clean($("#relay").value),
+    user: $("#user").value.trim(),
+    pass: $("#pass").value
+  };
+
+  set("geeko_car_cfg", c);
+  $("#test").className = "status";
+  $("#test").textContent = "Test du relais…";
+
+  try{
+    const h = await fetch(c.relay + "/sante");
+    if(!h.ok) throw Error("Relais HTTP " + h.status);
+
+    $("#test").textContent = "Relais OK — connexion IPTV…";
+    await load();
+
+    $("#test").className = "ok";
+    $("#test").textContent = "Connexion réussie.";
+    setTimeout(() => $("#settingsModal").classList.add("hidden"), 500);
+
+  }catch(e){
+    $("#test").className = "error";
+    $("#test").textContent = "❌ " + e.message;
+  }
+};
+
+async function load(){
+  $("#state").textContent = "Chargement…";
+
+  const [vod, ser] = await Promise.all([
+    api("get_vod_streams"),
+    api("get_series")
+  ]);
+
+  const movies = (Array.isArray(vod) ? vod : []).map(x => ({
+    uid:"m"+x.stream_id,
+    type:"movie",
+    stream_id:x.stream_id,
+    name:x.name || "Film",
+    image:x.stream_icon || "",
+    ext:x.container_extension || "mp4",
+    info:[
+      x.release_date || x.releaseDate,
+      x.rating && "★ " + x.rating
+    ].filter(Boolean).join(" • ")
+  }));
+
+  const series = (Array.isArray(ser) ? ser : []).map(x => ({
+    uid:"s"+x.series_id,
+    type:"series",
+    series_id:x.series_id,
+    name:x.name || "Série",
+    image:x.cover || "",
+    info:[
+      x.releaseDate,
+      x.rating && "★ " + x.rating
+    ].filter(Boolean).join(" • ")
+  }));
+
+  all = [...movies, ...series];
+  $("#state").textContent = "Connecté • " + all.length + " contenus";
+  render();
+}
+
+(async () => {
+  render();
+  const c = config();
+
+  if(c.relay && c.user && c.pass){
+    try{
+      await load();
+    }catch(e){
+      $("#state").textContent = "Relais indisponible";
+    }
+  }else{
+    showSettings();
+  }
 })();
 </script>
 </body>
